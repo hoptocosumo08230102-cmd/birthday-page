@@ -9,168 +9,266 @@
       box-sizing: border-box;
     }
 
-    body {
+    :root {
+      --pink: #ff8fb1;
+      --pink-soft: #ffd6e2;
+      --purple: #d7b6ff;
+      --blue: #b8d7ff;
+      --yellow: #ffe7a3;
+      --mint: #c8ffd8;
+      --text: #4f415a;
+      --sub: #6d6278;
+      --white-glass: rgba(255, 255, 255, 0.22);
+      --white-strong: rgba(255, 255, 255, 0.84);
+      --shadow: 0 18px 50px rgba(90, 63, 120, 0.18);
+    }
+
+    html, body {
       margin: 0;
-      min-height: 100vh;
+      min-height: 100%;
+    }
+
+    body {
+      font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      color: var(--text);
+      overflow: hidden;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
-      background:
-        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.35) 0 6px, transparent 7px),
-        radial-gradient(circle at 80% 15%, rgba(255,255,255,0.28) 0 5px, transparent 6px),
-        radial-gradient(circle at 20% 80%, rgba(255,255,255,0.3) 0 7px, transparent 8px),
-        radial-gradient(circle at 90% 75%, rgba(255,255,255,0.22) 0 6px, transparent 7px),
-        linear-gradient(135deg, #ffd1dc 0%, #f8c8ff 45%, #c9d8ff 100%);
-      overflow: hidden;
       padding: 24px;
-      position: relative;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,0.34) 0 5px, transparent 6px),
+        radial-gradient(circle at 84% 14%, rgba(255,255,255,0.25) 0 6px, transparent 7px),
+        radial-gradient(circle at 18% 82%, rgba(255,255,255,0.28) 0 7px, transparent 8px),
+        radial-gradient(circle at 90% 78%, rgba(255,255,255,0.22) 0 5px, transparent 6px),
+        linear-gradient(135deg, #ffd6e2 0%, #e8cbff 38%, #cfe0ff 72%, #fff0ba 100%);
     }
 
-    .confetti,
-    .confetti::before,
-    .confetti::after {
+    /* 背景の光 */
+    .aurora {
       position: absolute;
-      content: "";
-      width: 14px;
-      height: 14px;
-      border-radius: 4px;
-      opacity: 0.35;
-      animation: float 8s ease-in-out infinite;
+      inset: -20%;
+      pointer-events: none;
+      z-index: 0;
+      filter: blur(30px);
+      opacity: 0.45;
     }
 
-    .confetti {
-      top: 12%;
-      left: 10%;
-      background: #fff3a3;
-    }
-
-    .confetti::before {
-      top: 180px;
-      left: 80vw;
-      background: #ffb3c7;
-      animation-delay: 1.5s;
-    }
-
-    .confetti::after {
-      top: 58vh;
-      left: 12vw;
-      background: #b9fbc0;
-      animation-delay: 3s;
-    }
-
-    .card {
-      width: 100%;
-      max-width: 560px;
-      background: rgba(255, 255, 255, 0.82);
-      backdrop-filter: blur(10px);
-      border: 2px solid rgba(255, 255, 255, 0.55);
-      border-radius: 28px;
-      padding: 34px 28px;
-      text-align: center;
-      box-shadow: 0 18px 45px rgba(112, 84, 142, 0.22);
-      position: relative;
-      z-index: 2;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 8px 16px;
+    .aurora span {
+      position: absolute;
       border-radius: 999px;
-      background: linear-gradient(90deg, #ff9eb5, #ffc8dd);
-      color: #7a2954;
-      font-weight: 700;
-      font-size: 14px;
-      margin-bottom: 16px;
-      box-shadow: 0 6px 16px rgba(255, 158, 181, 0.25);
+      animation: drift 14s ease-in-out infinite;
     }
 
-    h1 {
-      margin: 0 0 18px;
-      font-size: clamp(28px, 6vw, 40px);
-      line-height: 1.35;
-      color: #5c355d;
+    .aurora span:nth-child(1) {
+      width: 340px;
+      height: 340px;
+      left: 8%;
+      top: 10%;
+      background: rgba(255, 158, 195, 0.42);
     }
 
-    .message {
-      margin: 0 auto 22px;
-      font-size: 18px;
-      line-height: 1.9;
-      color: #4b4453;
+    .aurora span:nth-child(2) {
+      width: 420px;
+      height: 420px;
+      right: 4%;
+      top: 18%;
+      background: rgba(167, 202, 255, 0.36);
+      animation-delay: 2.5s;
     }
 
-    .gift {
-      margin: 0 auto 22px;
-      padding: 14px 16px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(255, 240, 245, 0.95), rgba(255, 250, 225, 0.95));
-      color: #6a4b00;
-      font-weight: 700;
-      font-size: 16px;
-      border: 1px solid rgba(255, 214, 102, 0.5);
+    .aurora span:nth-child(3) {
+      width: 360px;
+      height: 360px;
+      left: 30%;
+      bottom: -4%;
+      background: rgba(255, 240, 168, 0.30);
+      animation-delay: 5s;
     }
 
-    .sub {
-      font-size: 14px;
-      color: #6f6a78;
-      margin-top: 10px;
+    @keyframes drift {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      50% {
+        transform: translate(20px, -20px) scale(1.08);
+      }
     }
 
-    .countdown {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #7b6d8d;
-      font-weight: 600;
+    /* 背景に流れる言葉 */
+    .bg-quote {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .quote {
+      position: absolute;
+      white-space: nowrap;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.14);
+      text-shadow: 0 0 18px rgba(255, 255, 255, 0.22);
+      animation: quoteFloat linear infinite;
+      user-select: none;
+    }
+
+    .quote.q1 {
+      top: 12%;
+      left: -10%;
+      font-size: clamp(28px, 4vw, 54px);
+      transform: rotate(-12deg);
+      animation-duration: 18s;
+    }
+
+    .quote.q2 {
+      top: 42%;
+      right: -10%;
+      font-size: clamp(34px, 5vw, 68px);
+      transform: rotate(-10deg);
+      animation-duration: 24s;
+      animation-direction: reverse;
+      color: rgba(255, 255, 255, 0.12);
+    }
+
+    .quote.q3 {
+      bottom: 12%;
+      left: -8%;
+      font-size: clamp(24px, 3.6vw, 48px);
+      transform: rotate(-8deg);
+      animation-duration: 21s;
+      color: rgba(255, 255, 255, 0.10);
+    }
+
+    @keyframes quoteFloat {
+      0% {
+        transform: translateX(0) rotate(-12deg);
+      }
+      50% {
+        transform: translateX(40px) translateY(-8px) rotate(-10deg);
+      }
+      100% {
+        transform: translateX(0) rotate(-12deg);
+      }
+    }
+
+    /* きらきら */
+    .sparkles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 0 12px rgba(255,255,255,0.8);
+      animation: twinkle 4s ease-in-out infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes twinkle {
+      0%, 100% {
+        transform: scale(0.4);
+        opacity: 0.2;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 0.9;
+      }
+    }
+
+    /* 風船 */
+    .balloons {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
     }
 
     .balloon {
       position: absolute;
-      bottom: -120px;
-      width: 70px;
-      height: 90px;
-      border-radius: 50%;
+      bottom: -160px;
+      border-radius: 50% 50% 48% 52%;
       opacity: 0.9;
-      z-index: 1;
-      animation: rise 11s linear infinite;
+      animation: rise linear infinite;
+      box-shadow: inset -10px -16px 24px rgba(255,255,255,0.18);
+    }
+
+    .balloon::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: -8px;
+      width: 14px;
+      height: 12px;
+      background: inherit;
+      clip-path: polygon(50% 100%, 0 0, 100% 0);
+      transform: translateX(-50%);
+      opacity: 0.9;
     }
 
     .balloon::after {
       content: "";
       position: absolute;
       left: 50%;
-      top: 88px;
+      top: calc(100% + 4px);
       width: 2px;
-      height: 85px;
-      background: rgba(120, 120, 120, 0.45);
+      height: 90px;
+      background: rgba(120, 120, 120, 0.42);
       transform: translateX(-50%);
     }
 
-    .balloon1 {
-      left: 8%;
-      background: #ff8fab;
+    .b1 {
+      left: 6%;
+      width: 74px;
+      height: 98px;
+      background: #ff8fb1;
+      animation-duration: 13s;
       animation-delay: 0s;
     }
 
-    .balloon2 {
-      left: 82%;
-      background: #a0c4ff;
-      animation-delay: 3s;
-    }
-
-    .balloon3 {
+    .b2 {
       left: 18%;
-      background: #caffbf;
-      animation-delay: 5.5s;
-      width: 56px;
-      height: 74px;
+      width: 58px;
+      height: 78px;
+      background: #ffd79b;
+      animation-duration: 15s;
+      animation-delay: 4s;
     }
 
-    .balloon4 {
-      left: 72%;
-      background: #ffd6a5;
-      animation-delay: 7s;
+    .b3 {
+      left: 78%;
+      width: 78px;
+      height: 104px;
+      background: #a7caff;
+      animation-duration: 14s;
+      animation-delay: 2s;
+    }
+
+    .b4 {
+      left: 88%;
       width: 60px;
-      height: 78px;
+      height: 82px;
+      background: #c9ffc9;
+      animation-duration: 16s;
+      animation-delay: 6s;
+    }
+
+    .b5 {
+      left: 30%;
+      width: 54px;
+      height: 72px;
+      background: #e6c0ff;
+      animation-duration: 17s;
+      animation-delay: 8s;
     }
 
     @keyframes rise {
@@ -178,65 +276,293 @@
         transform: translateY(0) translateX(0) rotate(0deg);
       }
       50% {
-        transform: translateY(-55vh) translateX(10px) rotate(4deg);
+        transform: translateY(-55vh) translateX(10px) rotate(5deg);
       }
       100% {
-        transform: translateY(-115vh) translateX(-8px) rotate(-4deg);
+        transform: translateY(-125vh) translateX(-10px) rotate(-5deg);
       }
     }
 
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0px) rotate(0deg);
+    /* 紙吹雪 */
+    .confetti-layer {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .confetti {
+      position: absolute;
+      top: -20px;
+      width: 12px;
+      height: 18px;
+      opacity: 0.9;
+      animation: confettiFall linear infinite;
+      transform-origin: center;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 0;
       }
-      50% {
-        transform: translateY(-18px) rotate(12deg);
+      10% {
+        opacity: 0.95;
+      }
+      100% {
+        transform: translateY(120vh) rotate(720deg);
+        opacity: 0.9;
+      }
+    }
+
+    /* メインカード */
+    .card-wrap {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      max-width: 580px;
+    }
+
+    .card-glow {
+      position: absolute;
+      inset: -8px;
+      border-radius: 34px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.45), rgba(255,255,255,0.08));
+      filter: blur(18px);
+      z-index: 0;
+      opacity: 0.85;
+    }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.68);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.48);
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      padding: 28px 24px 24px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.26), transparent 35%),
+        radial-gradient(circle at top right, rgba(255,255,255,0.35), transparent 30%);
+      pointer-events: none;
+    }
+
+    .top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(90deg, rgba(255, 180, 203, 0.95), rgba(255, 224, 167, 0.95));
+      color: #7d3c56;
+      font-weight: 800;
+      font-size: 13px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      box-shadow: 0 8px 20px rgba(255, 175, 201, 0.22);
+      margin-bottom: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .title {
+      margin: 0 0 10px;
+      line-height: 1.25;
+      font-size: clamp(28px, 6vw, 42px);
+      font-weight: 900;
+      background: linear-gradient(135deg, #ff6e9f, #9c7bff 55%, #5fa8ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      position: relative;
+      z-index: 1;
+    }
+
+    .subtitle {
+      margin: 0 0 20px;
+      color: var(--sub);
+      font-size: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .message-box {
+      position: relative;
+      z-index: 1;
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: 22px;
+      padding: 18px 16px;
+      margin: 0 auto 16px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.55);
+    }
+
+    .message {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.9;
+      color: #4e4557;
+      font-weight: 600;
+    }
+
+    .gift {
+      position: relative;
+      z-index: 1;
+      margin: 16px auto 14px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255, 244, 248, 0.95), rgba(255, 248, 214, 0.95));
+      color: #6b4e00;
+      font-weight: 800;
+      font-size: 15px;
+      border: 1px solid rgba(255, 216, 118, 0.55);
+      box-shadow: 0 8px 20px rgba(255, 216, 118, 0.14);
+    }
+
+    .mini-note {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 18px;
+      color: #7f738c;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .countdown-wrap {
+      position: relative;
+      z-index: 1;
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .countdown {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 210px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.65);
+      color: #6f627e;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 8px 18px rgba(110, 98, 126, 0.08);
+    }
+
+    .jump-button {
+      display: inline-block;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: 14px;
+      color: white;
+      background: linear-gradient(135deg, #ff7ca9, #8f82ff);
+      box-shadow: 0 12px 24px rgba(143, 130, 255, 0.22);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .jump-button:active {
+      transform: scale(0.98);
+    }
+
+    .footer-note {
+      position: relative;
+      z-index: 1;
+      margin-top: 14px;
+      font-size: 12px;
+      color: #8a8094;
+      font-weight: 600;
+    }
+
+    /* スマホ最適化 */
+    @media (max-width: 480px) {
+      body {
+        padding: 16px;
+      }
+
+      .card {
+        padding: 24px 18px 20px;
+        border-radius: 24px;
+      }
+
+      .message {
+        font-size: 15px;
+        line-height: 1.8;
+      }
+
+      .gift {
+        font-size: 14px;
+      }
+
+      .quote.q2 {
+        top: 48%;
       }
     }
   </style>
 </head>
 <body>
-  <div class="confetti"></div>
+  <div class="aurora">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 
-  <div class="balloon balloon1"></div>
-  <div class="balloon balloon2"></div>
-  <div class="balloon balloon3"></div>
-  <div class="balloon balloon4"></div>
+  <div class="bg-quote">
+    <div class="quote q1">今日が人生で一番若い日！</div>
+    <div class="quote q2">今日が人生で一番若い日！</div>
+    <div class="quote q3">今日が人生で一番若い日！</div>
+  </div>
 
-  <main class="card">
-    <div class="badge">🎉 HAPPY BIRTHDAY 🎉</div>
+  <div class="sparkles" id="sparkles"></div>
 
-    <h1>今日で私は25歳になりました！</h1>
+  <div class="balloons">
+    <div class="balloon b1"></div>
+    <div class="balloon b2"></div>
+    <div class="balloon b3"></div>
+    <div class="balloon b4"></div>
+    <div class="balloon b5"></div>
+  </div>
 
-    <p class="message">
-      リベの皆様、<br>
-      いつもありがとうございます。<br><br>
-      BBQ、皆で楽しみましょー！
-    </p>
+  <div class="confetti-layer" id="confetti-layer"></div>
 
-    <div class="gift">
-      🎁 誕生日プレゼント（お菓子）配布中です！<br>
-      よかったらどうぞ
-    </div>
+  <main class="card-wrap">
+    <div class="card-glow"></div>
 
-    <p class="sub">(使う力発揮中)</p>
-    <p class="countdown" id="countdown">10秒後にプロフィールへ移動します</p>
-  </main>
+    <section class="card">
+      <div class="top-badge">🎉 HAPPY BIRTHDAY 🎉</div>
 
-  <script>
-    let seconds = 10;
-    const countdown = document.getElementById("countdown");
+      <h1 class="title">今日で私は25歳になりました！</h1>
+      <p class="subtitle">Thanks for scanning this QR code ✨</p>
 
-    const timer = setInterval(() => {
-      seconds--;
-      if (seconds > 0) {
-        countdown.textContent = `${seconds}秒後にプロフィールへ移動します`;
-      } else {
-        clearInterval(timer);
-        countdown.textContent = "プロフィールへ移動します…";
-        window.location.href = "https://libecity.com/user_profile/4IiMRzqokLM1LSfIcQuY5yRU37z2";
-      }
-    }, 1000);
-  </script>
-</body>
-</html>
+      <div class="message-box">
+        <p class="message">
+          リベの皆様、<br>
+          いつもありがとうございます。<br><br>
+          今日が人生で一番若い日！<br>
+          BBQ、皆で楽しみましょー！
+        </p>
+      </div>
+
+      <div class="gift">
+        🎁 誕生日プレゼント（お菓子）配布中です！<br>
+        よかったら受け取ってください
+      </div>
+
+      <p class="mini-note">使う力、発揮中。</p>
+
+      <div class="countdown-wrap">
+        <div class="countdown" id="countdown">10秒後にプロフィールへ移動します</div>
