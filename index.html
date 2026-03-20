@@ -18,8 +18,6 @@
       --mint: #c8ffd8;
       --text: #4f415a;
       --sub: #6d6278;
-      --white-glass: rgba(255, 255, 255, 0.22);
-      --white-strong: rgba(255, 255, 255, 0.84);
       --shadow: 0 18px 50px rgba(90, 63, 120, 0.18);
     }
 
@@ -45,7 +43,6 @@
         linear-gradient(135deg, #ffd6e2 0%, #e8cbff 38%, #cfe0ff 72%, #fff0ba 100%);
     }
 
-    /* 背景の光 */
     .aurora {
       position: absolute;
       inset: -20%;
@@ -96,7 +93,6 @@
       }
     }
 
-    /* 背景に流れる言葉 */
     .bg-quote {
       position: absolute;
       inset: 0;
@@ -155,7 +151,6 @@
       }
     }
 
-    /* きらきら */
     .sparkles {
       position: absolute;
       inset: 0;
@@ -185,7 +180,6 @@
       }
     }
 
-    /* 風船 */
     .balloons {
       position: absolute;
       inset: 0;
@@ -283,7 +277,6 @@
       }
     }
 
-    /* 紙吹雪 */
     .confetti-layer {
       position: absolute;
       inset: 0;
@@ -300,6 +293,7 @@
       opacity: 0.9;
       animation: confettiFall linear infinite;
       transform-origin: center;
+      border-radius: 2px;
     }
 
     @keyframes confettiFall {
@@ -316,7 +310,6 @@
       }
     }
 
-    /* メインカード */
     .card-wrap {
       position: relative;
       z-index: 5;
@@ -472,7 +465,12 @@
       color: white;
       background: linear-gradient(135deg, #ff7ca9, #8f82ff);
       box-shadow: 0 12px 24px rgba(143, 130, 255, 0.22);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    }
+
+    .jump-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 28px rgba(143, 130, 255, 0.28);
     }
 
     .jump-button:active {
@@ -488,7 +486,28 @@
       font-weight: 600;
     }
 
-    /* スマホ最適化 */
+    .tap-burst {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 20;
+      animation: burst 700ms ease-out forwards;
+      box-shadow: 0 0 12px rgba(255,255,255,0.9);
+    }
+
+    @keyframes burst {
+      0% {
+        transform: scale(0.4);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(3.6);
+        opacity: 0;
+      }
+    }
+
     @media (max-width: 480px) {
       body {
         padding: 16px;
@@ -566,3 +585,101 @@
 
       <div class="countdown-wrap">
         <div class="countdown" id="countdown">10秒後にプロフィールへ移動します</div>
+        <a class="jump-button" id="jumpButton" href="https://libecity.com/user_profile/4IiMRzqokLM1LSfIcQuY5yRU37z2">今すぐプロフィールへ</a>
+      </div>
+
+      <p class="footer-note">今日は主役モードでいきます 🎂</p>
+    </section>
+  </main>
+
+  <script>
+    const targetUrl = "https://libecity.com/user_profile/4IiMRzqokLM1LSfIcQuY5yRU37z2";
+
+    document.getElementById("jumpButton").href = targetUrl;
+
+    const sparkleLayer = document.getElementById("sparkles");
+    for (let i = 0; i < 24; i++) {
+      const s = document.createElement("span");
+      s.className = "sparkle";
+      s.style.left = Math.random() * 100 + "%";
+      s.style.top = Math.random() * 100 + "%";
+      s.style.animationDelay = (Math.random() * 4).toFixed(2) + "s";
+      s.style.animationDuration = (3 + Math.random() * 3).toFixed(2) + "s";
+      s.style.width = s.style.height = (6 + Math.random() * 8).toFixed(0) + "px";
+      sparkleLayer.appendChild(s);
+    }
+
+    const confettiLayer = document.getElementById("confetti-layer");
+    const confettiColors = ["#ff8fb1", "#ffd79b", "#a7caff", "#c9ffc9", "#e6c0ff", "#fff2a8"];
+
+    for (let i = 0; i < 42; i++) {
+      const c = document.createElement("span");
+      c.className = "confetti";
+      c.style.left = Math.random() * 100 + "%";
+      c.style.background = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+      c.style.animationDuration = (5 + Math.random() * 5).toFixed(2) + "s";
+      c.style.animationDelay = (Math.random() * 6).toFixed(2) + "s";
+      c.style.transform = `rotate(${Math.random() * 360}deg)`;
+      c.style.width = (8 + Math.random() * 6).toFixed(0) + "px";
+      c.style.height = (10 + Math.random() * 10).toFixed(0) + "px";
+      confettiLayer.appendChild(c);
+    }
+
+    let seconds = 10;
+    const countdown = document.getElementById("countdown");
+
+    const timer = setInterval(() => {
+      seconds--;
+      if (seconds > 0) {
+        countdown.textContent = `${seconds}秒後にプロフィールへ移動します`;
+      } else {
+        clearInterval(timer);
+        countdown.textContent = "プロフィールへ移動します…";
+        window.location.href = targetUrl;
+      }
+    }, 1000);
+
+    function createBurst(x, y) {
+      const burstColors = ["#ffffff", "#ffd79b", "#ffb3cf", "#cfe0ff", "#e6c0ff"];
+      for (let i = 0; i < 8; i++) {
+        const dot = document.createElement("span");
+        dot.className = "tap-burst";
+        dot.style.left = x + "px";
+        dot.style.top = y + "px";
+        dot.style.background = burstColors[Math.floor(Math.random() * burstColors.length)];
+        dot.style.transform = `translate(-50%, -50%) scale(${0.5 + Math.random()})`;
+        document.body.appendChild(dot);
+
+        const angle = (Math.PI * 2 * i) / 8;
+        const distance = 20 + Math.random() * 25;
+
+        dot.animate(
+          [
+            { transform: "translate(-50%, -50%) scale(0.6)", opacity: 1 },
+            {
+              transform: `translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px)) scale(2.2)`,
+              opacity: 0
+            }
+          ],
+          {
+            duration: 650,
+            easing: "ease-out",
+            fill: "forwards"
+          }
+        );
+
+        setTimeout(() => dot.remove(), 700);
+      }
+    }
+
+    document.addEventListener("click", (e) => {
+      createBurst(e.clientX, e.clientY);
+    });
+
+    document.addEventListener("touchstart", (e) => {
+      const touch = e.touches[0];
+      if (touch) createBurst(touch.clientX, touch.clientY);
+    }, { passive: true });
+  </script>
+</body>
+</html>
