@@ -1,68 +1,242 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-<title>Birthday Page</title>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255,255,255,0.35) 0 6px, transparent 7px),
+        radial-gradient(circle at 80% 15%, rgba(255,255,255,0.28) 0 5px, transparent 6px),
+        radial-gradient(circle at 20% 80%, rgba(255,255,255,0.3) 0 7px, transparent 8px),
+        radial-gradient(circle at 90% 75%, rgba(255,255,255,0.22) 0 6px, transparent 7px),
+        linear-gradient(135deg, #ffd1dc 0%, #f8c8ff 45%, #c9d8ff 100%);
+      overflow: hidden;
+      padding: 24px;
+      position: relative;
+    }
 
-<meta http-equiv="refresh" content="10;url=https://libecity.com/user_profile/4IiMRzqokLM1LSfIcQuY5yRU37z2">
+    .confetti,
+    .confetti::before,
+    .confetti::after {
+      position: absolute;
+      content: "";
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      opacity: 0.35;
+      animation: float 8s ease-in-out infinite;
+    }
 
-<style>
-body{
-font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;
-background:#fffdf8;
-margin:0;
-padding:0;
-display:flex;
-align-items:center;
-justify-content:center;
-height:100vh;
-text-align:center;
-line-height:1.8;
-}
+    .confetti {
+      top: 12%;
+      left: 10%;
+      background: #fff3a3;
+    }
 
-.card{
-background:white;
-border:2px solid #f0e6d6;
-border-radius:20px;
-padding:30px;
-max-width:600px;
-box-shadow:0 8px 24px rgba(0,0,0,0.06);
-}
-</style>
+    .confetti::before {
+      top: 180px;
+      left: 80vw;
+      background: #ffb3c7;
+      animation-delay: 1.5s;
+    }
 
+    .confetti::after {
+      top: 58vh;
+      left: 12vw;
+      background: #b9fbc0;
+      animation-delay: 3s;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 560px;
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.55);
+      border-radius: 28px;
+      padding: 34px 28px;
+      text-align: center;
+      box-shadow: 0 18px 45px rgba(112, 84, 142, 0.22);
+      position: relative;
+      z-index: 2;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ff9eb5, #ffc8dd);
+      color: #7a2954;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 16px;
+      box-shadow: 0 6px 16px rgba(255, 158, 181, 0.25);
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font-size: clamp(28px, 6vw, 40px);
+      line-height: 1.35;
+      color: #5c355d;
+    }
+
+    .message {
+      margin: 0 auto 22px;
+      font-size: 18px;
+      line-height: 1.9;
+      color: #4b4453;
+    }
+
+    .gift {
+      margin: 0 auto 22px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(255, 240, 245, 0.95), rgba(255, 250, 225, 0.95));
+      color: #6a4b00;
+      font-weight: 700;
+      font-size: 16px;
+      border: 1px solid rgba(255, 214, 102, 0.5);
+    }
+
+    .sub {
+      font-size: 14px;
+      color: #6f6a78;
+      margin-top: 10px;
+    }
+
+    .countdown {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #7b6d8d;
+      font-weight: 600;
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -120px;
+      width: 70px;
+      height: 90px;
+      border-radius: 50%;
+      opacity: 0.9;
+      z-index: 1;
+      animation: rise 11s linear infinite;
+    }
+
+    .balloon::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 88px;
+      width: 2px;
+      height: 85px;
+      background: rgba(120, 120, 120, 0.45);
+      transform: translateX(-50%);
+    }
+
+    .balloon1 {
+      left: 8%;
+      background: #ff8fab;
+      animation-delay: 0s;
+    }
+
+    .balloon2 {
+      left: 82%;
+      background: #a0c4ff;
+      animation-delay: 3s;
+    }
+
+    .balloon3 {
+      left: 18%;
+      background: #caffbf;
+      animation-delay: 5.5s;
+      width: 56px;
+      height: 74px;
+    }
+
+    .balloon4 {
+      left: 72%;
+      background: #ffd6a5;
+      animation-delay: 7s;
+      width: 60px;
+      height: 78px;
+    }
+
+    @keyframes rise {
+      0% {
+        transform: translateY(0) translateX(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-55vh) translateX(10px) rotate(4deg);
+      }
+      100% {
+        transform: translateY(-115vh) translateX(-8px) rotate(-4deg);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-18px) rotate(12deg);
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="confetti"></div>
 
-<div class="card">
+  <div class="balloon balloon1"></div>
+  <div class="balloon balloon2"></div>
+  <div class="balloon balloon3"></div>
+  <div class="balloon balloon4"></div>
 
-<p>
-今日で私は25歳になりました！<br>
-リベの皆様、<br>
-いつもありがとうございます。
-</p>
+  <main class="card">
+    <div class="badge">🎉 HAPPY BIRTHDAY 🎉</div>
 
-<p>
-BBQ、皆で楽しみましょー！
-</p>
+    <h1>今日で私は25歳になりました！</h1>
 
-<p>
-誕生日プレゼント（お菓子）<br>
-配布中です！
-</p>
+    <p class="message">
+      リベの皆様、<br>
+      いつもありがとうございます。<br><br>
+      BBQ、皆で楽しみましょー！
+    </p>
 
-<p>
-よかったらどうぞ😊<br>
-(使う力発揮中💪)
-</p>
+    <div class="gift">
+      🎁 誕生日プレゼント（お菓子）配布中です！<br>
+      よかったらどうぞ
+    </div>
 
-<p>
-10秒後にプロフィールへ移動します
-</p>
+    <p class="sub">(使う力発揮中)</p>
+    <p class="countdown" id="countdown">10秒後にプロフィールへ移動します</p>
+  </main>
 
-</div>
+  <script>
+    let seconds = 10;
+    const countdown = document.getElementById("countdown");
 
+    const timer = setInterval(() => {
+      seconds--;
+      if (seconds > 0) {
+        countdown.textContent = `${seconds}秒後にプロフィールへ移動します`;
+      } else {
+        clearInterval(timer);
+        countdown.textContent = "プロフィールへ移動します…";
+        window.location.href = "https://libecity.com/user_profile/4IiMRzqokLM1LSfIcQuY5yRU37z2";
+      }
+    }, 1000);
+  </script>
 </body>
 </html>
